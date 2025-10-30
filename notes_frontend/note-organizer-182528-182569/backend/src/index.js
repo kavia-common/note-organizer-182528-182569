@@ -3,6 +3,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { getDb } from './db.js';
+import notesRouter from './routes/notes.js';
+import { errorHandler } from './middleware/errorHandler.js';
 
 // Load env variables from .env if present
 dotenv.config();
@@ -34,8 +36,11 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// Placeholder: routes will be implemented in later steps
-// e.g., app.use('/api/notes', notesRouter);
+// API routes
+app.use('/api/notes', notesRouter);
+
+// Error handler should be last
+app.use(errorHandler);
 
 // Start server
 app.listen(PORT, () => {
